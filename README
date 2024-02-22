@@ -1,9 +1,15 @@
-currently here in the tutorial
-https://discordjs.guide/creating-your-bot/command-deployment.html#where-to-deploy
+To get started:
+1. run `npm install`
+2. create `config.json`
+- should include bot token `token`, guild id `guildId`, and client id `clientId`
 
-still need to make a github repo
+[Discord.js Guide on Github](https://github.com/discordjs/guide/tree/main)
+
+[Discord.js Guide](https://discordjs.guide/creating-your-bot/)
+
 
 bot installed in notes server
 
 have not set up bot to respond
   have not found these details in the guide
+
