@@ -1,20 +1,21 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { filmNightCount } = require('../../data/filmNight.json');
 const fs = require('node:fs');
-const path = './data/filmNight1.json';
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('nominate')
-        .setDescription('Nominate a movie.')
+        .setDescription('Nominate a movie')
         .addStringOption(option =>
             option.setName('title')
-                .setDescription('The title of your movie.')
+                .setDescription('The title of your movie')
                 .setRequired(true))
         .addStringOption(option =>
             option.setName('url')
-                .setDescription('The Letterboxd URL of your movie.')
+                .setDescription('The Letterboxd URL of your movie')
                 .setRequired(true)),
     async execute(interaction) {
+        const path = `./data/filmNight${filmNightCount}.json`;
         const title = interaction.options.getString('title');
         const url = interaction.options.getString('url');
         
@@ -25,7 +26,7 @@ module.exports = {
             } else {
                 let data = JSON.parse(file);
             
-                data.push({ title: title, url: url });
+                data[0].nominations.push({ title, url });
                 fs.writeFile(path, JSON.stringify(data), (err) => {
                     if (err) throw err;                    
                     interaction.reply(`Nomination received for **[${title}](${url})**!`);

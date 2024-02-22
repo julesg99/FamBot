@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "filmNightNumber": 1,
+        "numParticipants": 4,
+        "nominations": [
+            { "title": "Dune", "url": "https://letterboxd.com/film/dune-part-two/" },
+            { "title": "Dune", "url": "https://letterboxd.com/film/dune-part-two/" },
+            { "title": "Dune", "url": "https://letterboxd.com/film/dune-part-two/" },
+            { "title": "Dune", "url": "https://letterboxd.com/film/dune-part-two/" }
+        ]
+    }
+]
+  
