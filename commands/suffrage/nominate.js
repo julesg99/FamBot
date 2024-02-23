@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { filmNightCount } = require('../../data/filmNight.json');
+const { famFilmCount } = require('../../data/baseData.json');
 const fs = require('node:fs');
 
 module.exports = {
@@ -15,21 +15,30 @@ module.exports = {
                 .setDescription('The Letterboxd URL of your movie')
                 .setRequired(true)),
     async execute(interaction) {
-        const path = `./data/filmNight${filmNightCount}.json`;
+        const path = `./data/famFilm${famFilmCount}.json`;
         const title = interaction.options.getString('title');
         const url = interaction.options.getString('url');
         
-        fs.readFile(path, 'utf8', (err, file) => {
+        fs.readFile(path, (err, file) => {
             if (err) {
                 console.error(err);
                 data = [];
             } else {
                 let data = JSON.parse(file);
+
+                if (data.nominations.length == data.numParticipants) {
+                    interaction.reply(`Nominations have concluded for this Fam Film Night # ${famFilmCount+1}.`);
+                    return;
+                }
             
-                data[0].nominations.push({ title, url });
+                data.nominations.push({ title, url });
                 fs.writeFile(path, JSON.stringify(data), (err) => {
-                    if (err) throw err;                    
-                    interaction.reply(`Nomination received for **[${title}](${url})**!`);
+                    if (err) throw err;
+                    let message = 'Thank you for your nomination! The current nominatees are:\n';
+                    for (const nominee of data.nominations) {
+                        message += `**[${nominee.title}](${nominee.url})**\n`;
+                    }
+                    interaction.reply(message);
                 });
             }
         }); 

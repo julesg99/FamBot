@@ -3,33 +3,31 @@ const fs = require('node:fs');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('film-night')
+        .setName('fam-film')
         .setDescription('How many participants?')
         .addStringOption(option =>
             option.setName('participants')
                 .setDescription('The number of participants.')
                 .setRequired(true)),
     async execute(interaction) {
-        let { filmNightCount } = require('../../data/filmNight.json');
-        const path = `./data/filmNight${filmNightCount}.json`;
+        let { famFilmCount } = require('../../data/baseData.json');
+        const path = `./data/famFilm${famFilmCount}.json`;
         const participants = interaction.options.getString('participants');
-        const data = [
-            {
-                "filmNightNumber": filmNightCount,
-                "numParticipants": participants,
-                "nominations": []
-            }
-        ];
-        filmNightCount++;
+        const data = {
+            "famFilmNumber": famFilmCount,
+            "numParticipants": participants,
+            "nominations": []
+        };
 
         fs.writeFile(path, JSON.stringify(data), (err) => {
             if (err) throw err;
             else {
-                interaction.reply(`Fam Film night for ${participants} participants!\nPlease begin nominating your movies (use \`/nominate\`)`);
+                interaction.reply(`Fam Film Night #${famFilmCount} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
             }
         });
-
-        fs.writeFile('./data/filmNight.json', JSON.stringify({ filmNightCount }), (err) => {
+        
+        famFilmCount++;
+        fs.writeFile('./data/baseData.json', JSON.stringify({ famFilmCount }), (err) => {
             if (err) throw err;
         });
     }   
