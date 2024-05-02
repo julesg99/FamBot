@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { famFilmCount } = require('../../data/config.json');
+const { famFilmCount } = require('../../config.json');
 const fs = require('node:fs');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         fs.readFile(path, (err, file) => {
             if (err) {
                 console.error(err);
-                data = [];
+                // data = [];
             } else {
                 let data = JSON.parse(file);
 

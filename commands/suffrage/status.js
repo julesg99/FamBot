@@ -5,13 +5,17 @@ const {
   ActionRowBuilder,
 } = require("discord.js");
 const fs = require("node:fs");
-const { famFilmCount } = require("../../data/config.json");
+const { famFilmCount } = require("../../config.json");
+const nomineeDisplay = require("../../lib/nomineeDisplay.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("status")
     .setDescription("Get the status of fam film night"),
   async execute(interaction) {
+    // const voteGrid = nomineeDisplay();
+    // interaction.reply({ embeds: [voteGrid] })
+
     const path = `./data/famFilm${famFilmCount}.json`;
     let description = "";
 

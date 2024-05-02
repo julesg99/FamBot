@@ -4,7 +4,7 @@ const {
   TextInputBuilder,
   ActionRowBuilder,
 } = require("discord.js");
-const { famFilmCount } = require("../../data/config.json");
+const { famFilmCount } = require("../../config.json");
 const fs = require("node:fs");
 
 module.exports = {

@@ -10,7 +10,7 @@ module.exports = {
                 .setDescription('The number of participants.')
                 .setRequired(true)),
     async execute(interaction) {
-        let { famFilmCount } = require('../../data/config.json');
+        let { famFilmCount } = require('../../config.json');
         const path = `./data/famFilm${famFilmCount}.json`;
         const participants = interaction.options.getString('participants');
         const data = {
