@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { famFilmCount } = require('../../data/baseData.json');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { famFilmCount } = require('../../data/config.json');
 const fs = require('node:fs');
 
 module.exports = {
@@ -27,18 +27,24 @@ module.exports = {
                 let data = JSON.parse(file);
 
                 if (data.nominations.length == data.numParticipants) {
-                    interaction.reply(`Nominations have concluded for this Fam Film Night # ${famFilmCount+1}.`);
+                    interaction.reply(`Nominations have concluded for this Fam Film Night # ${famFilmCount}.`);
                     return;
                 }
             
                 data.nominations.push({ title, url });
                 fs.writeFile(path, JSON.stringify(data), (err) => {
                     if (err) throw err;
-                    let message = 'Thank you for your nomination! The current nominatees are:\n';
+                    let message = 'Thank you for your nomination! The current nominees are:\n';
                     for (const nominee of data.nominations) {
                         message += `**[${nominee.title}](${nominee.url})**\n`;
                     }
-                    interaction.reply(message);
+                    const nominationsDisplay = new EmbedBuilder()
+                        .setTitle(`Nominations for Fam Film Night #${famFilmCount}`)
+                        .setDescription(message);
+                        // .addChannelOption(option =>
+                        //     option.setName('channel')
+                        //         .setDescription('The channel to echo into'));
+                    interaction.reply({ embeds: [nominationsDisplay]});
                 });
             }
         }); 

@@ -4,21 +4,20 @@ const {
   TextInputBuilder,
   ActionRowBuilder,
 } = require("discord.js");
-const { famFilmCount } = require("../../data/config.json");
 const fs = require("node:fs");
+const { famFilmCount } = require("../../data/config.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("movie-vote")
-    .setDescription("Start a movie vote"),
+    .setName("status")
+    .setDescription("Get the status of fam film night"),
   async execute(interaction) {
     const path = `./data/famFilm${famFilmCount}.json`;
-    let description = "Please vote for the movie you want to watch\n\n";
+    let description = "";
 
     fs.readFile(path, (err, file) => {
       if (err) {
-        console.error(err);
-        data = [];
+        console.log(err);
       } else {
         let data = JSON.parse(file);
         for (const nominee of data.nominations) {
@@ -27,17 +26,6 @@ module.exports = {
         const voteGrid = new EmbedBuilder()
           .setTitle(`Nominations for Fam Film Night #${famFilmCount}`)
           .setDescription(description);
-
-        // let actionRow = new ActionRowBuilder().addComponents(
-        //   new TextInputBuilder()
-        //     .setCustomId("vote")
-        //     .setLabel("Your vote")
-        //     .setValue("")
-        //     .setPlaceholder("Enter the number of the movie you want to vote for")
-        //     .setMinLength(1)
-        //     .setMaxLength(1)
-        //     .setRequired(true)
-        // );
 
         interaction.reply({ embeds: [voteGrid] });
       }

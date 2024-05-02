@@ -10,7 +10,7 @@ module.exports = {
                 .setDescription('The number of participants.')
                 .setRequired(true)),
     async execute(interaction) {
-        let { famFilmCount } = require('../../data/baseData.json');
+        let { famFilmCount } = require('../../data/config.json');
         const path = `./data/famFilm${famFilmCount}.json`;
         const participants = interaction.options.getString('participants');
         const data = {
@@ -24,11 +24,6 @@ module.exports = {
             else {
                 interaction.reply(`Fam Film Night #${famFilmCount} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
             }
-        });
-        
-        famFilmCount++;
-        fs.writeFile('./data/baseData.json', JSON.stringify({ famFilmCount }), (err) => {
-            if (err) throw err;
         });
     }   
 };
