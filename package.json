@@ -4,7 +4,8 @@
   "description": "discord bot for fam film night",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "node index.js",
+    "deploy" :"node deploy-commands.js"
   },
   "keywords": [
     "discord",
