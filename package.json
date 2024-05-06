@@ -1,9 +1,10 @@
 {
   "name": "fambot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "discord bot for fam film night",
   "main": "index.js",
   "scripts": {
+    "boot": "node deploy-commands.js && node index.js",
     "start": "node index.js",
     "deploy" :"node deploy-commands.js"
   },
