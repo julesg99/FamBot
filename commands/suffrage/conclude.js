@@ -11,10 +11,10 @@ module.exports = {
     const path = `./data/famFilm${famFilmCount}.json`;
     const fileData = readFamFilmFile();
 
-    fileData.famFilmCount++;
-    fs.writeFile(path, JSON.stringify(fileData), (err) => {
+    fs.writeFile('../../config.json', JSON.stringify({ "famFilmCount": famFilmCount + 1 }), (err) => {
       if (err) throw err;
-      interaction.reply(`Thank you for voting in Fam Film #${fileData.famFilmCount}!`);
+      console.log(famFilmCount);
+      interaction.reply(`Thank you for voting in Fam Film #${famFilmCount}!`);
     })
   }
 }
