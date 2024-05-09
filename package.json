@@ -6,7 +6,9 @@
   "scripts": {
     "boot": "node deploy-commands.js && node index.js",
     "start": "node index.js",
-    "deploy" :"node deploy-commands.js"
+    "deploy": "node deploy-commands.js",
+    "dcu": "docker compose up -d",
+    "dcd": "docker compose down"
   },
   "keywords": [
     "discord",
@@ -17,10 +19,10 @@
   "author": "Juulz",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.13.0",
-    "dotenv": "^16.3.1"
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "eslint": "^8.47.0"
+    "eslint": "^8.57.0"
   }
 }

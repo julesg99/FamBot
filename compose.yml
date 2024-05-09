@@ -6,7 +6,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_PASSWORD: o8RxN5T^
   graphql-engine:
     image: hasura/graphql-engine:v2.38.0
     ports:
