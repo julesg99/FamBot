@@ -10,7 +10,7 @@ module.exports = {
     .setName("status")
     .setDescription("Get the status of fam film night"),
   async execute(interaction) {
-    const nominations = await selectNominations();
+    const nominations = await selectNominations(["c420e331-9b00-4b25-8b9e-01c9a64f38af", "4c771d39-0798-4a96-8f34-cc545e6fae60"]);
     const famFilmCount = await selectFilmNightNumber();
 
     const voteGrid = new EmbedBuilder()
