@@ -4,8 +4,8 @@
   "description": "discord bot for fam film night",
   "main": "index.js",
   "scripts": {
-    "boot": "node deploy-commands.js && node index.js",
-    "start": "node index.js",
+    "start": "node deploy-commands.js && node index.js",
+    "boot": "node index.js",
     "deploy": "node deploy-commands.js",
     "dcu": "docker compose up -d",
     "dcd": "docker compose down"
