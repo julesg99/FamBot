@@ -1,7 +1,7 @@
 require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Events } = require('discord.js');
 const { BOT_TOKEN: token} = process.env;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -41,4 +41,10 @@ for (const file of eventFiles) {
   }
 }
 
+client.on(Events.InteractionCreate, interaction => {
+	if (!interaction.isModalSubmit()) return;
+	console.log('**fielded**', interaction.components.flatMap(comp => comp.components));
+})
+
 client.login(token);
+

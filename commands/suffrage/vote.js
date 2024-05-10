@@ -3,45 +3,40 @@ const {
   EmbedBuilder,
   TextInputBuilder,
   ActionRowBuilder,
+  TextInputStyle,
+  ModalBuilder,
+  Events,
 } = require("discord.js");
-const fs = require("node:fs");
-const { selectFilmNightNumber } = require("../../lib/nominations.js");
+
+const { selectCurrentFilmNight } = require("../../lib/filmNight.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("movie-vote")
     .setDescription("Start a movie vote"),
   async execute(interaction) {
-    const filmNightNum = selectFilmNightNumber();
-    const path = `./data/famFilm${filmNightNum}.json`;
+    if (!interaction.isChatInputCommand()) return;
+
     let description = "Please vote for the movie you want to watch\n\n";
+    let filmNight = await selectCurrentFilmNight();
 
-    // fs.readFile(path, (err, file) => {
-    //   if (err) {
-    //     console.error(err);
-    //     data = [];
-    //   } else {
-    //     let data = JSON.parse(file);
-    //     for (const nominee of data.nominations) {
-    //       description += `**[${nominee.title}](${nominee.url})**\n`;
-    //     }
-    //     const voteGrid = new EmbedBuilder()
-    //       .setTitle(`Nominations for Fam Film Night #${filmNightNum}`)
-    //       .setDescription(description);
+    const modal = new ModalBuilder()
+      .setCustomId("vote-modal")
+      .setTitle("Movie Vote");
 
-        // let actionRow = new ActionRowBuilder().addComponents(
-        //   new TextInputBuilder()
-        //     .setCustomId("vote")
-        //     .setLabel("Your vote")
-        //     .setValue("")
-        //     .setPlaceholder("Enter the number of the movie you want to vote for")
-        //     .setMinLength(1)
-        //     .setMaxLength(1)
-        //     .setRequired(true)
-        // );
+    for (const nominee of filmNight.nominations) {
+      const input = new TextInputBuilder()
+        .setCustomId(nominee.id)
+        .setLabel(`Votes for ${nominee.title}`)
+        .setStyle(TextInputStyle.Short);
 
-      //   interaction.reply({ embeds: [voteGrid] });
-      // }
-    // });
+      const actionRow = new ActionRowBuilder().addComponents(input);
+      modal.addComponents(actionRow);
+    }
+    await interaction.showModal(modal);
+
+    if (!interaction.isModalSubmit()) return;
+
+    console.log('**FIELDED**', interaction.fields.fields);
   },
 };
