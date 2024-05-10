@@ -1,6 +1,4 @@
-const {
-  EmbedBuilder
-} = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { selectNominations } = require("../../lib/nominations.js");
 const { selectFilmNightNumber } = require("../../lib/filmNight.js");
