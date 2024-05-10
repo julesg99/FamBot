@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { selectParticipant } = require('../../lib/participant.js');
+const { selectParticipant, insertParticipant } = require('../../lib/participant.js');
 const { insertNomination } = require('../../lib/nominations.js');
+const { selectCurrentFilmNight } = require('../../lib/filmNight.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,36 +25,35 @@ module.exports = {
       const name = interaction.options.getString('name');
 
       const participantResponse = await selectParticipant(name);
+      if (!participantResponse) participantResponse = await insertParticipant(name);
+      const filmNight = await selectCurrentFilmNight();
 
-      const nominationResponse = await insertNomination({
-        filmNightId: "567a7557-c986-4e60-8bff-c548ae1b4bd3",
+      let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
+      for (const nominee of filmNight.nominations) {
+        nomineeMessage += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
+      }
+
+      if (filmNight.nominations.length == filmNight.numberOfParticipants) {
+        const responseDisplay = new EmbedBuilder()
+          .setTitle(`Oops! Nominations have concluded...`)
+          .setDescription(nomineeMessage);
+        interaction.reply({ embeds: [responseDisplay] });
+        return;
+      }
+
+      await insertNomination({
+        filmNightId: filmNight.id,
         participantId: participantResponse,
         title,
         url
       });
 
-      console.log(nominationResponse);
+      nomineeMessage += `${name}: **[${title}](${url})**\n`;
+
+      const nominationsDisplay = new EmbedBuilder()
+        .setTitle(`Thank you for your nomination!`)
+        .setDescription(nomineeMessage);
+      interaction.reply({ embeds: [nominationsDisplay]});
       
-      // const data = readFamFilmFile();
-      // if (data.nominations.length == data.numParticipants) {
-      //   interaction.reply(`Nominations have concluded for this Fam Film Night # ${famFilmCount}.`);
-      //   return;
-      // }
-  
-      // data.nominations.push({ title, url });
-      // fs.writeFile(path, JSON.stringify(data), (err) => {
-      //   if (err) throw err;
-      //   let message = 'Thank you for your nomination! The current nominees are:\n';
-      //   for (const nominee of data.nominations) {
-      //     message += `**[${nominee.title}](${nominee.url})**\n`;
-      //   }
-      //   const nominationsDisplay = new EmbedBuilder()
-      //     .setTitle(`Nominations for Fam Film Night #${famFilmCount}`)
-      //     .setDescription(message);
-      //     // .addChannelOption(option =>
-      //     //     option.setName('channel')
-      //     //         .setDescription('The channel to echo into'));
-      //   interaction.reply({ embeds: [nominationsDisplay]});
-      // });
     }
 };
