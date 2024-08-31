@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { insertFilmNight } = require('../../lib/filmNight');
+const { insertFilmNight } = require('../../lib/queries/filmNight');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +10,9 @@ module.exports = {
                 .setDescription('The number of participants.')
                 .setRequired(true)),
     async execute(interaction) {
-        const participants = interaction.options.getString('participants');        
-        const { number } = await insertFilmNight(participants);
+        const participants = interaction.options.getString('participants');
+        const number = 1;
+        const response = await insertFilmNight(participants, number);
         interaction.reply(`Fam Film Night #${number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
     }   
 };
