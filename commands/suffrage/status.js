@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { selectCurrentFilmNight } = require("../../lib/filmNight.js");
+const { selectCurrentFilmNight } = require("../../lib/queries/filmNight.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

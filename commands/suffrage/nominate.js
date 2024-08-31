@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { selectParticipant, insertParticipant } = require('../../lib/participant.js');
-const { insertNomination } = require('../../lib/nominations.js');
-const { selectCurrentFilmNight } = require('../../lib/filmNight.js');
+const { selectParticipant, insertParticipant } = require('../../lib/queries/participant.js');
+const { insertNomination } = require('../../lib/queries/nomination.js');
+const { selectCurrentFilmNight } = require('../../lib/queries/filmNight.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
