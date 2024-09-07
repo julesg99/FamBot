@@ -13,11 +13,15 @@ module.exports = {
       .setTitle(`Nominations for Fam Film Night #${filmNight.number}`);
     let description = "";
 
-    for (const nominee of filmNight.nominations){
-      description += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
+    if (filmNight.nominations.length === 0){
+      description = "No submissions yet!";
+    } else {
+      for (const nominee of filmNight.nominations){
+        description += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
+      }
     }
-    voteGrid.setDescription(description);
 
+    voteGrid.setDescription(description);
     interaction.reply({ embeds: [voteGrid] })
   },
 };
