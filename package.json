@@ -9,7 +9,8 @@
     "deploy": "node deploy-commands.js",
     "dcu": "docker compose up -d",
     "dcd": "docker compose down",
-    "dsp": "docker system prune -a --volumes -f && docker volume rm $(docker volume ls -qf dangling=true | xargs)"
+    "dsp": "docker system prune -a --volumes -f && docker volume rm $(docker volume ls -qf dangling=true | xargs)",
+    "clean": "rm -rf node_modules"
   },
   "keywords": [
     "discord",
