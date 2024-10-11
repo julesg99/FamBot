@@ -14,8 +14,8 @@ CREATE TABLE public.film_night (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
-    number integer NOT NULL,
     num_participants integer DEFAULT 0 NOT NULL,
+    number integer NOT NULL,
     note text
 );
 CREATE TABLE public.nomination (
