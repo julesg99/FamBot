@@ -1,6 +1,3 @@
-testing
-
-
 ### Start up
 1. run `npm install`
 2. create `.env` by copying `.env.example`
