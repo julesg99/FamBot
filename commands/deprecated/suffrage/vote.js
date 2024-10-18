@@ -8,7 +8,7 @@ const {
   Events,
 } = require("discord.js");
 const fs = require("node:fs");
-const { selectFilmNightNumber } = require("../../lib/queries/nomination.js");
+const { selectFilmNightNumber } = require("../../../lib/queries/nomination.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { insertFilmNight } = require('../../lib/queries/filmNight');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +9,43 @@ module.exports = {
                 .setDescription('The number of participants.')
                 .setRequired(true)),
     async execute(interaction) {
-        const participants = interaction.options.getString('participants');
-        const response = await insertFilmNight(participants);
-        interaction.reply(`Fam Film Night #${response.number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
-    }   
+        try {
+            const participants = interaction.options.getString('participants');
+            const pins = await interaction.channel.messages.fetchPinned();
+            const pinMessage = pins.first();
+            
+            if (!pinMessage) {
+                return interaction.reply('No pinned message found.');
+            }
+
+            let pinContent;
+            try {
+                pinContent = JSON.parse(pinMessage.content);
+            } catch (error) {
+                console.error('Error parsing pinned message:', error);
+                return interaction.reply('Error parsing pinned message content.');
+            }
+
+            if (typeof pinContent.lastFamFilm !== 'number') {
+                pinContent.lastFamFilm = 0;
+            }
+
+            const number = ++pinContent.lastFamFilm; // Increment first, then assign
+
+            console.log('pinContent', pinContent);
+
+            try {
+                await pinMessage.edit(JSON.stringify(pinContent, null, 2)); // Stringify the object
+                console.log('Message updated successfully');
+            } catch (error) {
+                console.error('Error updating message:', error);
+                return interaction.reply('Error updating pinned message.');
+            }
+
+            await interaction.reply(`Fam Film Night #${number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
+        } catch (error) {
+            console.error('Command execution error:', error);
+            await interaction.reply('An error occurred while executing the command.');
+        }
+    }
 };
