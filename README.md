@@ -1,6 +1,12 @@
 ### Start up
+#### Frontend
 1. run `npm install`
 2. create `.env` by copying `.env.example`
+3. run `npm start`
+
+#### Backend
+1. run `npm run dcu`
+2. in hasura directory, run `hasura deploy`
 
 ### Commands
 `npm deploy`
