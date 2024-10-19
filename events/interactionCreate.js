@@ -12,7 +12,7 @@ module.exports = {
       console.error('!isChatInputCommand', interaction);
       return;
     }
-    
+
     // check that there exists a command by the request name
     if (!command) {
       console.error(`No command matching ${interaction.commandName}`)
@@ -41,16 +41,18 @@ module.exports = {
 
     timestamps.set(interaction.user.id, now);
     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-  
+
     try {
       await command.execute(interaction);
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-      } else {
+      }
+      else {
         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
       }
     }
-  }
+  },
 };

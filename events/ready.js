@@ -6,5 +6,5 @@ module.exports = {
   once: true,
   execute(client) {
     console.log(`Running...\nLogged in as ${client.user.tag}`);
-  }
+  },
 }

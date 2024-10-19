@@ -1,11 +1,11 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("test")
-        .setDescription("testing stuff"),
-    async execute(interaction){
+  data: new SlashCommandBuilder()
+    .setName('test')
+    .setDescription('testing stuff'),
+  async execute(interaction) {
 
-        interaction.reply("testing finished");
-    }
+    interaction.reply('testing finished');
+  },
 }

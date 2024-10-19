@@ -1,51 +1,53 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('fam-film')
-        .setDescription('How many participants?')
-        .addStringOption(option =>
-            option.setName('participants')
-                .setDescription('The number of participants.')
-                .setRequired(true)),
-    async execute(interaction) {
-        try {
-            const participants = interaction.options.getString('participants');
-            const pins = await interaction.channel.messages.fetchPinned();
-            const pinMessage = pins.first();
-            
-            if (!pinMessage) {
-                return interaction.reply('No pinned message found.');
-            }
+  data: new SlashCommandBuilder()
+    .setName('fam-film')
+    .setDescription('How many participants?')
+    .addStringOption(option =>
+      option.setName('participants')
+        .setDescription('The number of participants.')
+        .setRequired(true)),
+  async execute(interaction) {
+    try {
+      const participants = interaction.options.getString('participants');
+      const pins = await interaction.channel.messages.fetchPinned();
+      const pinMessage = pins.first();
 
-            let pinContent;
-            try {
-                pinContent = JSON.parse(pinMessage.content);
-            } catch (error) {
-                console.error('Error parsing pinned message:', error);
-                return interaction.reply('Error parsing pinned message content.');
-            }
+      if (!pinMessage) {
+        return interaction.reply('No pinned message found.');
+      }
 
-            if (typeof pinContent.lastFamFilm !== 'number') {
-                pinContent.lastFamFilm = 0;
-            }
+      let pinContent;
+      try {
+        pinContent = JSON.parse(pinMessage.content);
+      }
+      catch (error) {
+        console.error('Error parsing pinned message:', error);
+        return interaction.reply('Error parsing pinned message content.');
+      }
 
-            const number = ++pinContent.lastFamFilm; // Increment first, then assign
+      if (typeof pinContent.lastFamFilm !== 'number') {
+        pinContent.lastFamFilm = 0;
+      }
 
-            console.log('pinContent', pinContent);
+      const number = ++pinContent.lastFamFilm;
 
-            try {
-                await pinMessage.edit(JSON.stringify(pinContent, null, 2)); // Stringify the object
-                console.log('Message updated successfully');
-            } catch (error) {
-                console.error('Error updating message:', error);
-                return interaction.reply('Error updating pinned message.');
-            }
+      console.log('pinContent', pinContent);
 
-            await interaction.reply(`Fam Film Night #${number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
-        } catch (error) {
-            console.error('Command execution error:', error);
-            await interaction.reply('An error occurred while executing the command.');
-        }
+      try {
+        await pinMessage.edit(JSON.stringify(pinContent, null, 2));
+      }
+      catch (error) {
+        console.error('Error updating message:', error);
+        return interaction.reply('Error updating pinned message.');
+      }
+
+      await interaction.reply(`Fam Film Night #${number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
     }
+    catch (error) {
+      console.error('Command execution error:', error);
+      await interaction.reply('An error occurred while executing the command.');
+    }
+  },
 };
