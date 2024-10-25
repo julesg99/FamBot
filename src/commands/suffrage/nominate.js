@@ -21,5 +21,26 @@ module.exports = {
     const url = interaction.options.getString('url');
     const name = interaction.options.getString('name');
 
+    const pins = await interaction.channel.messages.fetchPinned();
+    const pinMessage = pins.first();
+
+    let pinContent;
+    try {
+      pinContent = JSON.parse(pinMessage.content);
+    }
+    catch (error) {
+      console.error('Error parsing pinned message:', error);
+      return interaction.reply('Error parsing pinned message content.');
+    }
+
+    const message = await interaction.channel.messages;
+    console.log(JSON.stringify(message));
+
+
+    let nomineeMessage = `The current nominees for Fam Film Night #${pinContent.lastFamFilm} are:\n`;
+    // for (const nominee of filmNight.nominations) {
+    //   nomineeMessage += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
+    // }
+    await interaction.reply({ content: nomineeMessage });
   },
 }

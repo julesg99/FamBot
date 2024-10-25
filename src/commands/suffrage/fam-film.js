@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionType } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -43,7 +43,24 @@ module.exports = {
         return interaction.reply('Error updating pinned message.');
       }
 
-      await interaction.reply(`Fam Film Night #${number} has begun!\nAll ${participants} participants must nominate a movie using \`/nominate\``);
+      await interaction.reply(`Fam Film Night #${number} started for ${participants} people! Use /nominate to submit your movie.`);
+
+      const filter = i => {
+        return i.commandName === 'nominate' && i.type === InteractionType.ApplicationCommand;
+      };
+
+      const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+
+      collector.on('collect', async i => {
+        if (i.commandName === 'vote') {
+          const option = i.options.getString('option');
+          await i.reply(`Your vote for "${option}" has been recorded!`);
+        }
+      });
+
+      collector.on('end', collected => {
+        interaction.followUp(`Voting session ended. Collected ${collected.size} votes.`);
+      });
     }
     catch (error) {
       console.error('Command execution error:', error);
