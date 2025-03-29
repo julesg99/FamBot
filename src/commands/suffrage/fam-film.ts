@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { insertFilmNight } = require('../../lib/queries/filmNight');
+import { SlashCommandBuilder } from 'discord.js';
+import { insertFilmNight } from '../../lib/queries/filmNight';
 
 module.exports = {
     data: new SlashCommandBuilder()

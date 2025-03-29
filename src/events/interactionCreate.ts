@@ -1,4 +1,4 @@
-const { Events, Collection } = require('discord.js');
+import { Events, Collection } from 'discord.js';
 
 // executes whenever an interaction has been received
 module.exports = {

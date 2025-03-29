@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+import { Events } from 'discord.js';
 
 // executes when the 'Client' becomes ready for use
 module.exports = {

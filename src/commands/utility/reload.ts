@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
-const fs = require('node:fs');
-const path = require('node:path');
+import { SlashCommandBuilder } from 'discord.js';
+import fs = require('node:fs');
+import path = require('node:path');
 
 module.exports = {
 	data: new SlashCommandBuilder()

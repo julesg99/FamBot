@@ -1,11 +1,10 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const {
-  EmbedBuilder,
-  TextInputBuilder,
-  ActionRowBuilder,
-} = require("discord.js");
-const fs = require("node:fs");
-const { selectFilmNightNumber } = require("../../lib/queries/nomination.js");
+// const {
+//   EmbedBuilder,
+//   TextInputBuilder,
+//   ActionRowBuilder,
+// } = require("discord.js");
+import { selectFilmNightNumber } from "../../lib/queries/filmNight";
 
 module.exports = {
   data: new SlashCommandBuilder()
