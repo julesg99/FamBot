@@ -1,6 +1,6 @@
 require('dotenv').config();
-const fs = require('node:fs');
-const path = require('node:path');
+import fs = require('node:fs');
+import path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { BOT_TOKEN: token} = process.env;
 

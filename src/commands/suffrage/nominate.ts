@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { selectParticipant, insertParticipant } = require('../../lib/queries/participant.js');
-const { insertNomination } = require('../../lib/queries/nomination.js');
-const { selectCurrentFilmNight } = require('../../lib/queries/filmNight.js');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { selectParticipant, insertParticipant } from '../../lib/queries/participant';
+import { insertNomination } from '../../lib/queries/nomination';
+import { selectCurrentFilmNight } from '../../lib/queries/filmNight';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
       const url = interaction.options.getString('url');
       const name = interaction.options.getString('name');
 
-      const participantResponse = await selectParticipant(name);
+      let participantResponse = await selectParticipant(name);
       if (!participantResponse) participantResponse = await insertParticipant(name);
       const filmNight = await selectCurrentFilmNight();
 
