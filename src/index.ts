@@ -1,8 +1,11 @@
-require('dotenv').config();
-import fs = require('node:fs');
-import path = require('node:path');
+import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+import * as path from 'path';
+
+dotenv.config();
+
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { BOT_TOKEN: token} = process.env;
+const { BOT_TOKEN } = process.env;
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -41,4 +44,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(token);
+client.login(BOT_TOKEN);
