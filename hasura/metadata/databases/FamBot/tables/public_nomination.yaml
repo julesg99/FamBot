@@ -1,0 +1,47 @@
+table:
+  name: nomination
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
+    film_name:
+      custom_name: filmName
+    participant_id:
+      custom_name: participantId
+    film_night_id:
+      custom_name: filmNightId
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+    film_name: filmName
+    participant_id: participantId
+    film_night_id: filmNightId
+  custom_name: nomination
+  custom_root_fields:
+    delete: deleteNominations
+    delete_by_pk: deleteNomination
+    insert: insertNominations
+    insert_one: insertNomination
+    select: selectNominations
+    select_aggregate: selectNominationAggregate
+    select_by_pk: selectNomination
+    select_stream: selectNominationStream
+    update: updateNominations
+    update_by_pk: updateNomination
+    updateMany: updateManyNominations
+object_relationships:
+  - name: filmNight
+    using:
+      manual_configuration:
+        column_mapping:
+          film_night_id: id
+        insertion_order: null
+        remote_table:
+          name: film_night
+          schema: public
+  - name: participant
+    using:
+      foreign_key_constraint_on: participant_id

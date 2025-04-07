@@ -1,0 +1,24 @@
+table:
+  name: participant
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields:
+    delete: deleteParticipants
+    delete_by_pk: deleteParticipant
+    insert: insertParticipants
+    insert_one: insertParticipant
+    select: selectParticipants
+    select_aggregate: selectParticipantAggregate
+    select_by_pk: selectParticipant
+    select_stream: selectParticipantStream
+    update: updateParticipants
+    update_by_pk: updateParticipant
+    updateMany: updateManyParticipants

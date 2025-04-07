@@ -1,1 +1,59 @@
-[]
+- name: allowed-queries
+  definition:
+    queries:
+      - name: insertFilmNight
+        query: |
+          mutation insertFilmNight($numParticipants: Int) {
+            insertFilmNight(object: {numParticipants: $numParticipants}) {
+              id
+              number
+            }
+          }
+      - name: selectNominations
+        query: |
+          query selectNominations($filmNightId: uuid!) {
+            selectNominations(where: {filmNightId: {_eq: $filmNightId}}) {
+              id
+              filmName
+              url
+            }
+          }
+      - name: selectParticipant
+        query: |
+          query selectParticipant($name: String!) {
+            selectParticipants(where: {name: {_ilike: $name}}) {
+              id
+            }
+          }
+      - name: insertParticipant
+        query: |
+          mutation insertParcitipant($name: String!) {
+            insertParticipant(object: {name: $name}) {
+              id
+            }
+          }
+      - name: insertNomination
+        query: |
+          mutation insertNomination($nomination: nomination_insert_input!) {
+            insertNomination(object: $nomination) {
+              id
+            }
+          }
+      - name: selectCurrentFilmNight
+        query: |
+          query selectCurrentFilmNight {
+            selectFilmNights(order_by: {createdAt: desc}, limit: 1) {
+              id
+              number
+              numParticipants
+              nominations {
+                filmName
+                url
+                participant {
+                  name
+                }
+              }
+            }
+          }
+
+
