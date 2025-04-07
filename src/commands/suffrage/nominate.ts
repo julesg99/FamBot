@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { selectParticipant, insertParticipant } from '../../lib/queries/participant';
 import { insertNomination } from '../../lib/queries/nomination';
 import { selectCurrentFilmNight } from '../../lib/queries/filmNight';
+import debug from 'debug';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,6 +29,8 @@ module.exports = {
       if (!participantResponse) participantResponse = await insertParticipant(name);
       const filmNight = await selectCurrentFilmNight();
 
+      debug( 'Current Film Night: ' + JSON.stringify(filmNight, null, 2));
+
       let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
       for (const nominee of filmNight.nominations) {
         nomineeMessage += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
@@ -40,13 +43,13 @@ module.exports = {
         interaction.reply({ embeds: [responseDisplay] });
         return;
       }
-
-      await insertNomination({
+      const request = {
         filmNightId: filmNight.id,
         participantId: participantResponse,
-        title,
+        filmName: title,
         url
-      });
+      };
+      await insertNomination(request);
 
       nomineeMessage += `${name}: **[${title}](${url})**\n`;
 

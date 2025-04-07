@@ -9,10 +9,12 @@ async function selectNominations(nominationIds) {
         body: JSON.stringify({ "ids": nominationIds })
     }
     
+    debug('Select Nominations Request:', JSON.stringify(request, null, 2));
     const response = await fetch(`${GRAPHQL_ROOT}/selectNominations`, request);
     const data = await response.json();
+    debug('Select Nominations Response:', JSON.stringify(data, null, 2));
     if (data.error) throw new Error(data.error);
-    return data.select_nominations;
+    return data.selectNominations;
 }
 
 async function insertNomination(nomination) {
@@ -22,10 +24,12 @@ async function insertNomination(nomination) {
         body: JSON.stringify({ "nomination": nomination})
     }
     
+    debug('Insert Nomination Request:', JSON.stringify(request, null, 2));
     const response = await fetch(`${GRAPHQL_ROOT}/insertNomination`, request);
     const data = await response.json();
+    debug('Insert Nomination Response:', JSON.stringify(data, null, 2));
     if (data.error) throw new Error(data.error);
-    return data.insert_nomination.id;
+    return data.insertNomination.id;
 }
 
 export { selectNominations, insertNomination };

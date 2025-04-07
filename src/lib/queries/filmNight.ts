@@ -7,16 +7,18 @@ async function selectFilmNightNumber() {
         headers: baseHeaders
     });
     const data = await response.json();
-    debug('Selecting Film Night Number...', JSON.stringify(data, null, 2));
+    debug('Select Film Night Number: ', JSON.stringify(data, null, 2));
     if (data.error) throw new Error(data.error);
     return data.selectFilmNightAggregate.aggregate.max.number;
 }
 
 async function selectCurrentFilmNight() {
-    const response = await fetch(`${GRAPHQL_ROOT}/selectCurrentFilmNight`);
+    const response = await fetch(`${GRAPHQL_ROOT}/selectCurrentFilmNight`, {
+        headers: baseHeaders
+    });
     const data = await response.json();
+    debug('Select Current Film Night Response:', JSON.stringify(data, null, 2));
     if (data.error) throw new Error(data.error);
-    debug('Selecting current Film Night...', data.selectFilmNights[0]);
     return data.selectFilmNights[0];
 }
 
@@ -33,7 +35,7 @@ async function insertFilmNight(participants) {
     const data = await response.json();
     // debug('Insert Film Night Response:', JSON.stringify(data, null, 2));
     if (data.error) throw new Error(data.error);
-    return data.insert_film_night.returning[0];
+    return data.insertFilmNight;
 }
 
 export { selectCurrentFilmNight, selectFilmNightNumber, insertFilmNight };
