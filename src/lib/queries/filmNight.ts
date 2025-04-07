@@ -1,8 +1,9 @@
 import { debug } from 'console';
 import { baseHeaders } from './hasuraConfig';
+import { FilmNight } from '../types';
 const { GRAPHQL_ROOT } = process.env;
 
-async function selectFilmNightNumber() {
+async function selectFilmNightNumber(): Promise<FilmNight> {
     const response = await fetch(`${GRAPHQL_ROOT}/selectFamFilmNumber`, {
         headers: baseHeaders
     });
@@ -12,7 +13,7 @@ async function selectFilmNightNumber() {
     return data.selectFilmNightAggregate.aggregate.max.number;
 }
 
-async function selectCurrentFilmNight() {
+async function selectCurrentFilmNight(): Promise<FilmNight> {
     const response = await fetch(`${GRAPHQL_ROOT}/selectCurrentFilmNight`, {
         headers: baseHeaders
     });
@@ -22,7 +23,7 @@ async function selectCurrentFilmNight() {
     return data.selectFilmNights[0];
 }
 
-async function insertFilmNight(participants) {
+async function insertFilmNight(participants): Promise<FilmNight> {
     const request: RequestInit = {
         method: "POST",
         headers: baseHeaders,

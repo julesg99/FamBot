@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { selectCurrentFilmNight } from "../../lib/queries/filmNight";
+import { selectCurrentFilmNight } from "../../lib/queries";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
       description = "No submissions yet!";
     } else {
       for (const nominee of filmNight.nominations){
-        description += `${nominee.participant.name}: **[${nominee.title}](${nominee.url})**\n`;
+        description += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
       }
     }
 

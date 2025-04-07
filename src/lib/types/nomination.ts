@@ -1,3 +1,6 @@
+import FilmNight from "./filmNight";
+import Participant from "./participant";
+
 type Nomination = {
     id: string; // uuid, primary key, unique
     createdAt: string; // timestamp with time zone, default: now()
@@ -7,6 +10,8 @@ type Nomination = {
     participantId: string; // uuid
     filmNightId: string; // uuid
     score: number | null; // integer, nullable, default: 0
+    participant: Participant
+    filmNight: FilmNight
 };
 
 export default Nomination;

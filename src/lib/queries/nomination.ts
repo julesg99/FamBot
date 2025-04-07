@@ -1,8 +1,9 @@
 import { debug } from 'console';
 import { baseHeaders } from './hasuraConfig';
+import { Nomination } from '../types';
 const { GRAPHQL_ROOT } = process.env;
 
-async function selectNominations(nominationIds) {
+async function selectNominations(nominationIds): Promise<Nomination[]> {
     const request = {
         method: "POST",
         headers: baseHeaders,
@@ -17,7 +18,7 @@ async function selectNominations(nominationIds) {
     return data.selectNominations;
 }
 
-async function insertNomination(nomination) {
+async function insertNomination(nomination): Promise<string> {
     const request = {
         method: "POST",
         headers: baseHeaders,

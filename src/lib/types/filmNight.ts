@@ -1,3 +1,5 @@
+import Nomination from "./nomination";
+
 type FilmNight = {
     id: string;
     createdAt: string;
@@ -5,6 +7,7 @@ type FilmNight = {
     numParticipants: number;
     number: number;
     note: string | null;
+    nominations: Array<Nomination>
 }
 
 export default FilmNight;

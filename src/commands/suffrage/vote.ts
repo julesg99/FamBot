@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 //   TextInputBuilder,
 //   ActionRowBuilder,
 // } = require("discord.js");
-import { selectFilmNightNumber } from "../../lib/queries/filmNight";
+import { selectFilmNightNumber } from "../../lib/queries";
 
 module.exports = {
   data: new SlashCommandBuilder()

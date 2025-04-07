@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { selectFilmNightNumber } from "../../lib/queries/filmNight.js";
+import { selectFilmNightNumber } from "../../lib/queries";
 
 module.exports = {
   data: new SlashCommandBuilder()

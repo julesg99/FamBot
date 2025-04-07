@@ -1,8 +1,9 @@
 import { debug } from 'console';
 import { baseHeaders } from './hasuraConfig';
+import { FilmNight } from '../types';
 const { GRAPHQL_ROOT } = process.env;
 
-async function selectParticipant(name){
+async function selectParticipant(name): Promise<string | null> {
     const response = await fetch(`${GRAPHQL_ROOT}/selectParticipant/?name=${name}`, {
         method: "GET",
         headers: baseHeaders
@@ -13,6 +14,18 @@ async function selectParticipant(name){
     else if (data.selectParticipants.length === 0)
         return null;
     return data.selectParticipants[0].id;
+}
+
+async function selectFilmNightParticipation(name: string, filmNightId: string): Promise<FilmNight> {
+    debug('Select Film Night Participation Request:', { name, filmNightId });
+    const response = await fetch(`${GRAPHQL_ROOT}/selectFilmNightParticipation/?name=${name}&filmNightId=${filmNightId}`, {
+        method: "GET",
+        headers: baseHeaders
+    });
+    const data = await response.json();
+    debug('Select Film Night Participation Response:', JSON.stringify(data, null, 2));
+    if (data.error) throw new Error(data.error);
+    return data.selectFilmNightParticipations;
 }
 
 async function insertParticipant(name) {
@@ -30,4 +43,4 @@ async function insertParticipant(name) {
     return data;
 }
 
-export { selectParticipant, insertParticipant };
+export { selectParticipant, selectFilmNightParticipation, insertParticipant };
