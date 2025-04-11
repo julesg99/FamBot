@@ -1,6 +1,7 @@
 import { debug } from "console";
 import { baseHeaders } from "./hasuraConfig";
 import { FilmNight } from "../types";
+import { InsertParticipantResponse } from "../types/participant";
 const { GRAPHQL_ROOT } = process.env;
 
 async function selectParticipant(name): Promise<string | null> {
@@ -39,7 +40,9 @@ async function selectFilmNightParticipation(
   return data.selectFilmNightParticipations;
 }
 
-async function insertParticipant(name) {
+async function insertParticipant(
+  name: string,
+): Promise<InsertParticipantResponse> {
   const request = {
     method: "POST",
     headers: baseHeaders,

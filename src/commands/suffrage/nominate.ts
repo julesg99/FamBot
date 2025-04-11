@@ -7,6 +7,7 @@ import {
   selectFilmNightParticipation,
 } from "../../lib/queries";
 import debug from "debug";
+import { InsertParticipantResponse, Nomination } from "../../lib/types";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -36,10 +37,8 @@ module.exports = {
     const name = interaction.options.getString("name");
 
     const filmNight = await selectCurrentFilmNight();
-    let participantResponse = await selectFilmNightParticipation(
-      name,
-      filmNight.id,
-    );
+    let participantResponse: InsertParticipantResponse;
+    await selectFilmNightParticipation(name, filmNight.id);
     console.log(
       "1 Participant Response: " + JSON.stringify(participantResponse, null, 2),
     );
@@ -63,9 +62,9 @@ module.exports = {
       interaction.reply({ embeds: [responseDisplay] });
       return;
     }
-    const request = {
+    const request: Partial<Nomination> = {
       filmNightId: filmNight.id,
-      participantId: participantResponse,
+      participantId: participantResponse.insertParticipant.id,
       filmName: title,
       url,
     };

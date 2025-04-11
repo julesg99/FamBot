@@ -1,5 +1,5 @@
+import { Participant } from ".";
 import FilmNight from "./filmNight";
-import Participant from "./participant";
 
 type Nomination = {
   id: string; // uuid, primary key, unique

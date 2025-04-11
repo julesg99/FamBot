@@ -18,7 +18,10 @@ async function selectNominations(nominationIds): Promise<Nomination[]> {
   return data.selectNominations;
 }
 
-async function insertNomination(nomination: Nomination): Promise<string> {
+async function insertNomination(
+  nomination: Partial<Nomination>,
+): Promise<string> {
+  debug("Insert Nomination Request:", { nomination });
   const request: RequestInit = {
     method: "POST",
     headers: baseHeaders,
@@ -26,10 +29,7 @@ async function insertNomination(nomination: Nomination): Promise<string> {
   };
 
   debug("Insert Nomination Request:", JSON.stringify(request, null, 2));
-  const response: Promise<Response> = await fetch(
-    `${GRAPHQL_ROOT}/insertNomination`,
-    request,
-  );
+  const response = await fetch(`${GRAPHQL_ROOT}/insertNomination`, request);
   const data = await response.json();
   debug("Insert Nomination Response:", JSON.stringify(data, null, 2));
   if (data.error) throw new Error(data.error);

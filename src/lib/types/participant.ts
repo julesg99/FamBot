@@ -8,4 +8,8 @@ type Participant = {
   nominations: Array<Nomination>;
 };
 
-export default Participant;
+type InsertParticipantResponse = {
+  insertParticipant: Participant;
+};
+
+export { Participant, InsertParticipantResponse };
