@@ -14,7 +14,7 @@ configuration:
     updated_at: updatedAt
     num_participants: numParticipants
   custom_name: filmNight
-  custom_root_fields: 
+  custom_root_fields:
     delete: deleteFilmNights
     delete_by_pk: deleteFilmNight
     insert: insertFilmNights

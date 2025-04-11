@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { Events } from "discord.js";
 
 // executes when the 'Client' becomes ready for use
 module.exports = {
@@ -6,5 +6,5 @@ module.exports = {
   once: true,
   execute(client) {
     console.log(`Running...\nLogged in as ${client.user.tag}`);
-  }
-}
+  },
+};

@@ -28,19 +28,19 @@ module.exports = {
     //       .setTitle(`Nominations for Fam Film Night #${filmNightNum}`)
     //       .setDescription(description);
 
-        // let actionRow = new ActionRowBuilder().addComponents(
-        //   new TextInputBuilder()
-        //     .setCustomId("vote")
-        //     .setLabel("Your vote")
-        //     .setValue("")
-        //     .setPlaceholder("Enter the number of the movie you want to vote for")
-        //     .setMinLength(1)
-        //     .setMaxLength(1)
-        //     .setRequired(true)
-        // );
+    // let actionRow = new ActionRowBuilder().addComponents(
+    //   new TextInputBuilder()
+    //     .setCustomId("vote")
+    //     .setLabel("Your vote")
+    //     .setValue("")
+    //     .setPlaceholder("Enter the number of the movie you want to vote for")
+    //     .setMinLength(1)
+    //     .setMaxLength(1)
+    //     .setRequired(true)
+    // );
 
-      //   interaction.reply({ embeds: [voteGrid] });
-      // }
+    //   interaction.reply({ embeds: [voteGrid] });
+    // }
     // });
   },
 };

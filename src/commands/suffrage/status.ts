@@ -9,19 +9,20 @@ module.exports = {
   async execute(interaction) {
     const filmNight = await selectCurrentFilmNight();
 
-    const voteGrid = new EmbedBuilder()
-      .setTitle(`Nominations for Fam Film Night #${filmNight.number}`);
+    const voteGrid = new EmbedBuilder().setTitle(
+      `Nominations for Fam Film Night #${filmNight.number}`,
+    );
     let description = "";
 
-    if (filmNight.nominations.length === 0){
+    if (filmNight.nominations.length === 0) {
       description = "No submissions yet!";
     } else {
-      for (const nominee of filmNight.nominations){
+      for (const nominee of filmNight.nominations) {
         description += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
       }
     }
 
     voteGrid.setDescription(description);
-    interaction.reply({ embeds: [voteGrid] })
+    interaction.reply({ embeds: [voteGrid] });
   },
 };

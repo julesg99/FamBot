@@ -8,5 +8,5 @@ module.exports = {
   async execute(interaction) {
     const famFilmCount = await selectFilmNightNumber();
     interaction.reply(`Thank you for voting in Fam Film #${famFilmCount}!`);
-  }
-}
+  },
+};
