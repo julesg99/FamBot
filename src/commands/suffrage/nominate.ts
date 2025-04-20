@@ -1,17 +1,11 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import {
   insertParticipant,
-  selectParticipant,
   insertNomination,
   selectCurrentFilmNight,
   selectFilmNightParticipation,
 } from "../../lib/queries";
-import debug from "debug";
-import {
-  InsertParticipantResponse,
-  Nomination,
-  Participant,
-} from "../../lib/types";
+import { Nomination, Participant } from "../../lib/types";
 
 module.exports = {
   data: new SlashCommandBuilder()
