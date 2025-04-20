@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
 import {
   insertParticipant,
   insertNomination,
@@ -56,7 +56,10 @@ module.exports = {
       const responseDisplay = new EmbedBuilder()
         .setTitle(`Oops! You have already nominated a movie!`)
         .setDescription(nomineeMessage);
-      interaction.reply({ embeds: [responseDisplay], ephemeral: true });
+      interaction.reply({
+        embeds: [responseDisplay],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
@@ -64,7 +67,10 @@ module.exports = {
       const responseDisplay = new EmbedBuilder()
         .setTitle(`Oops! Nominations have concluded...`)
         .setDescription(nomineeMessage);
-      interaction.reply({ embeds: [responseDisplay], ephemeral: true });
+      interaction.reply({
+        embeds: [responseDisplay],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 

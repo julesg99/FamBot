@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { MessageFlags, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
   cooldown: 5,
@@ -8,7 +8,7 @@ module.exports = {
   async execute(interaction) {
     const wait = require("node:timers/promises").setTimeout;
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     await wait(2000);
     await interaction.editReply("Ping! Pong!");
   },

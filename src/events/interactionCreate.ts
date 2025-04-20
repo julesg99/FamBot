@@ -1,4 +1,4 @@
-import { Events, Collection } from "discord.js";
+import { Events, Collection, MessageFlags } from "discord.js";
 
 // executes whenever an interaction has been received
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
         const expiredTimestamp = Math.round(expirationTime / 1000);
         return interaction.reply({
           content: `Please wait, you are on a cooldown for \`${command.data.name}\`. You can use it again <t:${expiredTimestamp}:R>.`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     }
@@ -53,12 +53,12 @@ module.exports = {
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
           content: "There was an error while executing this command!",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       } else {
         await interaction.reply({
           content: "There was an error while executing this command!",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     }
