@@ -7,7 +7,11 @@ import {
   selectFilmNightParticipation,
 } from "../../lib/queries";
 import debug from "debug";
-import { InsertParticipantResponse, Nomination } from "../../lib/types";
+import {
+  InsertParticipantResponse,
+  Nomination,
+  Participant,
+} from "../../lib/types";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -37,34 +41,42 @@ module.exports = {
     const name = interaction.options.getString("name");
 
     const filmNight = await selectCurrentFilmNight();
-    let participantResponse: InsertParticipantResponse;
-    await selectFilmNightParticipation(name, filmNight.id);
-    console.log(
-      "1 Participant Response: " + JSON.stringify(participantResponse, null, 2),
+    let participant: Participant | null = null;
+    let participationResponse = await selectFilmNightParticipation(
+      name,
+      filmNight.id,
     );
-    if (!participantResponse)
-      participantResponse = await insertParticipant(name);
-    console.log(
-      "2 Participant Response: " + JSON.stringify(participantResponse, null, 2),
-    );
+    participant = participationResponse[0];
 
-    debug("Current Film Night: " + JSON.stringify(filmNight, null, 2));
+    if (!participant) {
+      let participantResponse = await insertParticipant(name);
+      participant = participantResponse.insertParticipant;
+    }
 
     let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
     for (const nominee of filmNight.nominations) {
       nomineeMessage += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
     }
 
+    if (participant.nominations.length === 1) {
+      const responseDisplay = new EmbedBuilder()
+        .setTitle(`Oops! You have already nominated a movie!`)
+        .setDescription(nomineeMessage);
+      interaction.reply({ embeds: [responseDisplay], ephemeral: true });
+      return;
+    }
+
     if (filmNight.nominations.length == filmNight.numParticipants) {
       const responseDisplay = new EmbedBuilder()
         .setTitle(`Oops! Nominations have concluded...`)
         .setDescription(nomineeMessage);
-      interaction.reply({ embeds: [responseDisplay] });
+      interaction.reply({ embeds: [responseDisplay], ephemeral: true });
       return;
     }
+
     const request: Partial<Nomination> = {
       filmNightId: filmNight.id,
-      participantId: participantResponse.insertParticipant.id,
+      participantId: participant.id,
       filmName: title,
       url,
     };
