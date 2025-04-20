@@ -5,20 +5,20 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
-    updated_at:
-      custom_name: updatedAt
     film_name:
       custom_name: filmName
-    participant_id:
-      custom_name: participantId
     film_night_id:
       custom_name: filmNightId
+    participant_id:
+      custom_name: participantId
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
-    updated_at: updatedAt
     film_name: filmName
-    participant_id: participantId
     film_night_id: filmNightId
+    participant_id: participantId
+    updated_at: updatedAt
   custom_name: nomination
   custom_root_fields:
     delete: deleteNominations
@@ -31,7 +31,6 @@ configuration:
     select_stream: selectNominationStream
     update: updateNominations
     update_by_pk: updateNomination
-    updateMany: updateManyNominations
 object_relationships:
   - name: filmNight
     using:

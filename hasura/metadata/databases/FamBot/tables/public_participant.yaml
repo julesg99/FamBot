@@ -21,4 +21,11 @@ configuration:
     select_stream: selectParticipantStream
     update: updateParticipants
     update_by_pk: updateParticipant
-    updateMany: updateManyParticipants
+array_relationships:
+  - name: nominations
+    using:
+      foreign_key_constraint_on:
+        column: participant_id
+        table:
+          name: nomination
+          schema: public

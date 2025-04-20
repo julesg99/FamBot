@@ -34,6 +34,15 @@
     - GET
   name: selectCurrentFilmNight
   url: selectCurrentFilmNight
+- comment: check for participation in a film night by user
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: selectFilmNightParticipation
+  methods:
+    - GET
+  name: selectFilmNightParticipation
+  url: selectFilmNightParticipation
 - comment: ""
   definition:
     query:

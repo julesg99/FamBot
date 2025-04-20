@@ -5,14 +5,14 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
-    updated_at:
-      custom_name: updatedAt
     num_participants:
       custom_name: numParticipants
+    updated_at:
+      custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
-    updated_at: updatedAt
     num_participants: numParticipants
+    updated_at: updatedAt
   custom_name: filmNight
   custom_root_fields:
     delete: deleteFilmNights
@@ -25,7 +25,6 @@ configuration:
     select_stream: selectFilmNightStream
     update: updateFilmNights
     update_by_pk: updateFilmNight
-    updateMany: updateManyFilmNights
 array_relationships:
   - name: nominations
     using:
