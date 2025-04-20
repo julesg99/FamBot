@@ -1,7 +1,6 @@
 import { debug } from "console";
 import { baseHeaders } from "./hasuraConfig";
-import { FilmNight } from "../types";
-import { InsertParticipantResponse } from "../types/participant";
+import { InsertParticipantResponse, Participant } from "../types/participant";
 const { GRAPHQL_ROOT } = process.env;
 
 async function selectParticipant(name): Promise<string | null> {
@@ -22,7 +21,7 @@ async function selectParticipant(name): Promise<string | null> {
 async function selectFilmNightParticipation(
   name: string,
   filmNightId: string,
-): Promise<FilmNight> {
+): Promise<Participant[]> {
   debug("Select Film Night Participation Request:", { name, filmNightId });
   const response = await fetch(
     `${GRAPHQL_ROOT}/selectFilmNightParticipation/?name=${name}&filmNightId=${filmNightId}`,
@@ -37,7 +36,7 @@ async function selectFilmNightParticipation(
     JSON.stringify(data, null, 2),
   );
   if (data.error) throw new Error(data.error);
-  return data.selectFilmNightParticipations;
+  return data.selectParticipants;
 }
 
 async function insertParticipant(
