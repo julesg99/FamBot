@@ -1,32 +1,49 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-// const {
-//   EmbedBuilder,
-//   TextInputBuilder,
-//   ActionRowBuilder,
-// } = require("discord.js");
-import { selectFilmNightNumber } from "../../lib/queries";
+import {
+  ActionRowBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+} from "discord.js";
+import {
+  selectCurrentFilmNight,
+  selectFilmNightNumber,
+} from "../../lib/queries";
+import debug = require("debug");
+import { safeTextInput } from "../../lib";
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("movie-vote")
     .setDescription("Start a movie vote"),
   async execute(interaction) {
-    const filmNightNum = selectFilmNightNumber();
-    const path = `./data/famFilm${filmNightNum}.json`;
-    let description = "Please vote for the movie you want to watch\n\n";
+    const filmNight = await selectCurrentFilmNight();
 
-    // fs.readFile(path, (err, file) => {
-    //   if (err) {
-    //     console.error(err);
-    //     data = [];
-    //   } else {
-    //     let data = JSON.parse(file);
-    //     for (const nominee of data.nominations) {
-    //       description += `**[${nominee.title}](${nominee.url})**\n`;
-    //     }
-    //     const voteGrid = new EmbedBuilder()
-    //       .setTitle(`Nominations for Fam Film Night #${filmNightNum}`)
-    //       .setDescription(description);
+    const modal = new ModalBuilder()
+      .setCustomId("votingModal")
+      .setTitle("Voting");
+
+    filmNight.nominations.forEach((nominee, index) => {
+      const actionRow = new ActionRowBuilder<TextInputBuilder>();
+
+      const input = safeTextInput({
+        customId: `vote-${index}`,
+        label: `Vote for ${nominee.filmName}`,
+        placeholder: "Enter your vote (5, 10, 15, 20)",
+        minLength: 0,
+        maxLength: 10,
+        required: true,
+        style: TextInputStyle.Short,
+      });
+
+      actionRow.addComponents(input);
+
+      modal.addComponents(actionRow);
+    });
+
+    const response = await interaction.showModal(modal);
+
+    debug("Response from showModal: " + JSON.stringify(response, null, 2));
 
     // let actionRow = new ActionRowBuilder().addComponents(
     //   new TextInputBuilder()
@@ -39,7 +56,7 @@ module.exports = {
     //     .setRequired(true)
     // );
 
-    //   interaction.reply({ embeds: [voteGrid] });
+    // interaction.reply({ embeds: [voteGrid] });
     // }
     // });
   },
