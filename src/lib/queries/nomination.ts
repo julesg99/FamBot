@@ -36,4 +36,19 @@ async function insertNomination(
   return data.insertNomination.id;
 }
 
-export { selectNominations, insertNomination };
+async function updateNomination(
+  nomination: Partial<Nomination> & { id: string },
+) {
+  const request: RequestInit = {
+    method: "POST",
+    headers: baseHeaders,
+    body: JSON.stringify({ id: nomination.id, score: nomination.score }),
+  };
+  debug("Patch Nomination Request:", JSON.stringify(request, null, 2));
+  const response = await fetch(`${GRAPHQL_ROOT}/patchNomination`, request);
+  const data = await response.json();
+  debug("Patch Nomination Response:", JSON.stringify(data, null, 2));
+  if (data.error) throw new Error(data.error);
+}
+
+export { selectNominations, insertNomination, updateNomination };
