@@ -1,11 +1,3 @@
-export {
-  selectParticipant,
-  selectFilmNightParticipation,
-  insertParticipant,
-} from "./participant";
-export {
-  selectCurrentFilmNight,
-  selectFilmNightNumber,
-  insertFilmNight,
-} from "./filmNight";
-export { selectNominations, insertNomination } from "./nomination";
+export * from "./participant";
+export * from "./filmNight";
+export * from "./nomination";
