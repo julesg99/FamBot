@@ -4,7 +4,9 @@
   "description": "Discord bot for Fam activites",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "tsc && node ./dist/deploy-commands.js && node ./dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon",
+    "start": "npm run build && node dist/deploy-commands.js && node dist/index.js",
     "boot": "node ./dist/index.js",
     "deploy": "node ./dist/deploy-commands.js",
     "dcu": "docker compose up -d",
@@ -24,7 +26,8 @@
     "debug": "^4.4.0",
     "discord-api-types": "^0.37.119",
     "discord.js": "^14.15.2",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.9"
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
