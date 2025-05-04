@@ -1,16 +1,34 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 import {
   ActionRowBuilder,
-  ModalBuilder,
-  TextInputBuilder,
-  TextInputStyle,
+  MessageFlags,
+  StringSelectMenuBuilder,
 } from "discord.js";
-import {
-  selectCurrentFilmNight,
-  selectFilmNightNumber,
-} from "../../lib/queries";
+import { selectCurrentFilmNight } from "../../lib/queries";
 import debug = require("debug");
-import { safeTextInput } from "../../lib";
+
+const voteOptions = [
+  {
+    label: "5",
+    description: "5",
+    value: "5",
+  },
+  {
+    label: "10",
+    description: "10",
+    value: "10",
+  },
+  {
+    label: "15",
+    description: "15",
+    value: "15",
+  },
+  {
+    label: "20",
+    description: "20",
+    value: "20",
+  },
+];
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,45 +37,21 @@ module.exports = {
   async execute(interaction) {
     const filmNight = await selectCurrentFilmNight();
 
-    const modal = new ModalBuilder()
-      .setCustomId("votingModal")
-      .setTitle("Voting");
-
-    filmNight.nominations.forEach((nominee, index) => {
-      const actionRow = new ActionRowBuilder<TextInputBuilder>();
-
-      const input = safeTextInput({
-        customId: `vote-${index}`,
-        label: `Vote for ${nominee.filmName}`,
-        placeholder: "Enter your vote (5, 10, 15, 20)",
-        minLength: 0,
-        maxLength: 10,
-        required: true,
-        style: TextInputStyle.Short,
-      });
-
-      actionRow.addComponents(input);
-
-      modal.addComponents(actionRow);
+    const rows = filmNight.nominations.map((nomination, index) => {
+      const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId(`select-movie_${nomination.id}`)
+        .setPlaceholder(`Votes for ${nomination.filmName.toLocaleUpperCase()}`)
+        .setMaxValues(4)
+        .addOptions(voteOptions);
+      return new ActionRowBuilder().addComponents(selectMenu);
     });
 
-    const response = await interaction.showModal(modal);
+    const response = await interaction.reply({
+      content: "Please select your vote",
+      flags: MessageFlags.Ephemeral,
+      components: rows,
+    });
 
-    debug("Response from showModal: " + JSON.stringify(response, null, 2));
-
-    // let actionRow = new ActionRowBuilder().addComponents(
-    //   new TextInputBuilder()
-    //     .setCustomId("vote")
-    //     .setLabel("Your vote")
-    //     .setValue("")
-    //     .setPlaceholder("Enter the number of the movie you want to vote for")
-    //     .setMinLength(1)
-    //     .setMaxLength(1)
-    //     .setRequired(true)
-    // );
-
-    // interaction.reply({ embeds: [voteGrid] });
-    // }
-    // });
+    debug("Response from vote submission: " + response);
   },
 };
