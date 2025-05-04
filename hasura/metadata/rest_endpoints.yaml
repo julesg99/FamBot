@@ -25,6 +25,15 @@
     - POST
   name: insertParticipant
   url: insertParticipant
+- comment: update the score of a specific nomination
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: patchNominationScore
+  methods:
+    - PATCH
+  name: patchNominationScore
+  url: patchNominationScore
 - comment: ""
   definition:
     query:

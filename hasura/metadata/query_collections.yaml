@@ -32,22 +32,6 @@
               id
             }
           }
-      - name: selectCurrentFilmNight
-        query: |
-          query selectCurrentFilmNight {
-            selectFilmNights(order_by: {createdAt:desc}, limit: 1) {
-              id
-              number
-              numParticipants
-              nominations {
-                filmName
-                url
-                participant {
-                  name
-                }
-              }
-            }
-          }
       - name: selectFilmNightParticipation
         query: |
           query selectFilmNightParticipation ($name: String!, $filmNightId: uuid!) {
@@ -67,5 +51,31 @@
               nominations {
                 id
               }
+            }
+          }
+      - name: selectCurrentFilmNight
+        query: |
+          query selectCurrentFilmNight {
+            selectFilmNights(order_by: {createdAt:desc}, limit: 1) {
+              id
+              number
+              numParticipants
+              nominations {
+                id
+                filmName
+                url
+                score
+                participant {
+                  name
+                }
+              }
+            }
+          }
+      - name: patchNominationScore
+        query: |
+          mutation patchNominationScore ($id: uuid!, $score: Int!) {
+            updateNomination(pk_columns: {id:$id}, _set: {score:$score}) {
+              id
+              score
             }
           }
