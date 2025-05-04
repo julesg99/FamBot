@@ -34,13 +34,13 @@ services:
       - my-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/api/v1/athena/health"]
-      interval: 5s
+      interval: 600s
       timeout: 10s
       retries: 5
       start_period: 5s
   fambot:
     image: node:18-alpine
-    restart: always
+    restart: no
     env_file:
       - .env
     depends_on:
