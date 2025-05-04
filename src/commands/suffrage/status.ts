@@ -18,7 +18,8 @@ module.exports = {
       description = "No submissions yet!";
     } else {
       for (const nominee of filmNight.nominations) {
-        description += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
+        description += `${nominee.participant.name} nominated **[${nominee.filmName}](${nominee.url})**\n`;
+        description += `Current Score: ${nominee.score}\n\n`;
       }
     }
 
