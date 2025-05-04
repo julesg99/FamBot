@@ -1,5 +1,5 @@
 import { Events, type Interaction, MessageFlags } from "discord.js";
-import { selectCurrentFilmNight, updateNomination } from "../lib";
+import { selectCurrentFilmNight, updateNomination } from "../../lib";
 
 module.exports = {
   name: Events.InteractionCreate,
@@ -11,7 +11,6 @@ module.exports = {
       interaction.isStringSelectMenu() &&
       interaction.customId?.startsWith("select-movie")
     ) {
-      console.log("INTERACTION: " + interaction.customId);
       const voteSum = interaction.values.reduce((acc, value) => {
         return acc + parseInt(value);
       }, 0);
