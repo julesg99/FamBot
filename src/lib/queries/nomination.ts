@@ -21,7 +21,6 @@ async function selectNominations(nominationIds): Promise<Nomination[]> {
 async function insertNomination(
   nomination: Partial<Nomination>,
 ): Promise<string> {
-  debug("Insert Nomination Request:", { nomination });
   const request: RequestInit = {
     method: "POST",
     headers: baseHeaders,
