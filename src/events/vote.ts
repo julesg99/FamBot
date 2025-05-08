@@ -1,11 +1,13 @@
 import { Events, type Interaction, MessageFlags } from "discord.js";
-import { selectCurrentFilmNight, updateNomination } from "../../lib";
+import { selectCurrentFilmNight, updateNomination } from "../lib";
 
 module.exports = {
   name: Events.InteractionCreate,
   once: false,
   async execute(interaction: Interaction) {
     if (!interaction) return;
+
+    console.log("INTERACTION", interaction);
 
     if (
       interaction.isStringSelectMenu() &&
