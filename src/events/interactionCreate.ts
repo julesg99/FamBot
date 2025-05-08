@@ -7,12 +7,6 @@ module.exports = {
     const command = interaction.client.commands.get(interaction.commandName);
     const { cooldowns } = interaction.client;
 
-    // check that the interaction is a slash command
-    if (!interaction.isChatInputCommand()) {
-      console.error("!isChatInputCommand", interaction);
-      return;
-    }
-
     // check that there exists a command by the request name
     if (!command) {
       console.error(`No command matching ${interaction.commandName}`);
