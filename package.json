@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "boot": "node ./dist/index.js",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "clean": "rm -rf node_modules",
     "dcd": "docker compose down",
     "dcu": "docker compose up -d",

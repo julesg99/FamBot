@@ -1,4 +1,9 @@
-import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
+import {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  MessageFlags,
+  Interaction,
+} from "discord.js";
 import {
   insertParticipant,
   insertNomination,
@@ -29,64 +34,77 @@ module.exports = {
         .setDescription("Please enter your name")
         .setRequired(true),
     ),
-  async execute(interaction) {
-    const title = interaction.options.getString("title");
-    const url = interaction.options.getString("url");
-    const name = interaction.options.getString("name");
+  async execute(interaction: Interaction) {
+    if (!interaction.isChatInputCommand()) return;
+    try {
+      // interaction.deferReply({
+      //   flags: MessageFlags.Ephemeral,
+      // });
 
-    const filmNight = await selectCurrentFilmNight();
-    let participant: Participant | null = null;
-    let participationResponse = await selectFilmNightParticipation(
-      name,
-      filmNight.id,
-    );
-    participant = participationResponse[0];
+      const title = interaction.options.getString("title");
+      const url = interaction.options.getString("url");
+      const name = interaction.options.getString("name");
 
-    if (!participant) {
-      let participantResponse = await insertParticipant(name);
-      participant = participantResponse.insertParticipant;
-    }
+      const filmNight = await selectCurrentFilmNight();
+      let participant: Participant | null = null;
+      let participationResponse = await selectFilmNightParticipation(
+        name,
+        filmNight.id,
+      );
+      participant = participationResponse[0];
 
-    let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
-    for (const nominee of filmNight.nominations) {
-      nomineeMessage += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
-    }
+      if (!participant) {
+        let participantResponse = await insertParticipant(name);
+        participant = participantResponse.insertParticipant;
+      }
 
-    if (participant.nominations.length === 1) {
-      const responseDisplay = new EmbedBuilder()
-        .setTitle(`Oops! You have already nominated a movie!`)
+      let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
+      for (const nominee of filmNight.nominations) {
+        nomineeMessage += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
+      }
+
+      if (participant.nominations.length === 1) {
+        const responseDisplay = new EmbedBuilder()
+          .setTitle(`Oops! You have already nominated a movie!`)
+          .setDescription(nomineeMessage);
+        interaction.reply({
+          embeds: [responseDisplay],
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+
+      if (filmNight.nominations.length == filmNight.numParticipants) {
+        const responseDisplay = new EmbedBuilder()
+          .setTitle(`Oops! Nominations have concluded...`)
+          .setDescription(nomineeMessage);
+        interaction.reply({
+          embeds: [responseDisplay],
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+
+      const request: Partial<Nomination> = {
+        filmNightId: filmNight.id,
+        participantId: participant.id,
+        filmName: title,
+        url,
+      };
+      await insertNomination(request);
+
+      nomineeMessage += `${name}: **[${title}](${url})**\n`;
+
+      const nominationsDisplay = new EmbedBuilder()
+        .setTitle(`Thank you for your nomination!`)
         .setDescription(nomineeMessage);
+      interaction.reply({ embeds: [nominationsDisplay] });
+    } catch (error) {
+      console.error("Error nominating movie:", error);
       interaction.reply({
-        embeds: [responseDisplay],
+        content: "There was an error while executing this command!",
         flags: MessageFlags.Ephemeral,
       });
-      return;
     }
-
-    if (filmNight.nominations.length == filmNight.numParticipants) {
-      const responseDisplay = new EmbedBuilder()
-        .setTitle(`Oops! Nominations have concluded...`)
-        .setDescription(nomineeMessage);
-      interaction.reply({
-        embeds: [responseDisplay],
-        flags: MessageFlags.Ephemeral,
-      });
-      return;
-    }
-
-    const request: Partial<Nomination> = {
-      filmNightId: filmNight.id,
-      participantId: participant.id,
-      filmName: title,
-      url,
-    };
-    await insertNomination(request);
-
-    nomineeMessage += `${name}: **[${title}](${url})**\n`;
-
-    const nominationsDisplay = new EmbedBuilder()
-      .setTitle(`Thank you for your nomination!`)
-      .setDescription(nomineeMessage);
-    interaction.reply({ embeds: [nominationsDisplay] });
   },
 };

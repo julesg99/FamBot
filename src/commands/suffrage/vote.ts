@@ -1,46 +1,57 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-// const {
-//   EmbedBuilder,
-//   TextInputBuilder,
-//   ActionRowBuilder,
-// } = require("discord.js");
-import { selectFilmNightNumber } from "../../lib/queries";
+import {
+  ActionRowBuilder,
+  MessageFlags,
+  StringSelectMenuBuilder,
+} from "discord.js";
+import { selectCurrentFilmNight } from "../../lib/queries";
+import debug = require("debug");
+
+const voteOptions = [
+  {
+    label: "5",
+    description: "5",
+    value: "5",
+  },
+  {
+    label: "10",
+    description: "10",
+    value: "10",
+  },
+  {
+    label: "15",
+    description: "15",
+    value: "15",
+  },
+  {
+    label: "20",
+    description: "20",
+    value: "20",
+  },
+];
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("movie-vote")
     .setDescription("Start a movie vote"),
   async execute(interaction) {
-    const filmNightNum = selectFilmNightNumber();
-    const path = `./data/famFilm${filmNightNum}.json`;
-    let description = "Please vote for the movie you want to watch\n\n";
+    const filmNight = await selectCurrentFilmNight();
 
-    // fs.readFile(path, (err, file) => {
-    //   if (err) {
-    //     console.error(err);
-    //     data = [];
-    //   } else {
-    //     let data = JSON.parse(file);
-    //     for (const nominee of data.nominations) {
-    //       description += `**[${nominee.title}](${nominee.url})**\n`;
-    //     }
-    //     const voteGrid = new EmbedBuilder()
-    //       .setTitle(`Nominations for Fam Film Night #${filmNightNum}`)
-    //       .setDescription(description);
+    const rows = filmNight.nominations.map((nomination, index) => {
+      const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId(`select-movie_${nomination.id}`)
+        .setPlaceholder(`Votes for ${nomination.filmName.toLocaleUpperCase()}`)
+        .setMaxValues(4)
+        .addOptions(voteOptions);
+      return new ActionRowBuilder().addComponents(selectMenu);
+    });
 
-    // let actionRow = new ActionRowBuilder().addComponents(
-    //   new TextInputBuilder()
-    //     .setCustomId("vote")
-    //     .setLabel("Your vote")
-    //     .setValue("")
-    //     .setPlaceholder("Enter the number of the movie you want to vote for")
-    //     .setMinLength(1)
-    //     .setMaxLength(1)
-    //     .setRequired(true)
-    // );
+    const response = await interaction.reply({
+      content: "Please cast your vote!",
+      flags: MessageFlags.Ephemeral,
+      components: rows,
+    });
 
-    //   interaction.reply({ embeds: [voteGrid] });
-    // }
-    // });
+    debug("Response from vote submission: " + response);
   },
 };
