@@ -47,7 +47,7 @@ module.exports = {
     });
 
     const response = await interaction.reply({
-      content: "Please select your vote",
+      content: "Please cast your vote!",
       flags: MessageFlags.Ephemeral,
       components: rows,
     });
