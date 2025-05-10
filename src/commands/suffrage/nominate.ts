@@ -60,7 +60,7 @@ module.exports = {
 
       let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
       for (const nominee of filmNight.nominations) {
-        nomineeMessage += `${nominee.participant.name}: **[${nominee.filmName}](${nominee.url})**\n`;
+        nomineeMessage += `${nominee.participant.name} nominated, **[${nominee.filmName}](${nominee.url})**\n`;
       }
 
       if (participant.nominations.length === 1) {
@@ -93,7 +93,7 @@ module.exports = {
       };
       await insertNomination(request);
 
-      nomineeMessage += `${name}: **[${title}](${url})**\n`;
+      nomineeMessage += `${name} nominated **[${title}](${url})**\n`;
 
       const nominationsDisplay = new EmbedBuilder()
         .setTitle(`Thank you for your nomination!`)
