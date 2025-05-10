@@ -11,6 +11,7 @@ import {
   selectFilmNightParticipation,
 } from "../../lib/queries";
 import { Nomination, Participant } from "../../lib/types";
+import { buildNomineeDisplay } from "../../lib";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -58,10 +59,7 @@ module.exports = {
         participant = participantResponse.insertParticipant;
       }
 
-      let nomineeMessage = `The current nominees for Fam Film Night #${filmNight.number} are:\n`;
-      for (const nominee of filmNight.nominations) {
-        nomineeMessage += `${nominee.participant.name} nominated, **[${nominee.filmName}](${nominee.url})**\n`;
-      }
+      let nomineeMessage = buildNomineeDisplay(filmNight);
 
       if (participant.nominations.length === 1) {
         const responseDisplay = new EmbedBuilder()
@@ -93,7 +91,8 @@ module.exports = {
       };
       await insertNomination(request);
 
-      nomineeMessage += `${name} nominated **[${title}](${url})**\n`;
+      filmNight.nominations.push(request as Nomination);
+      nomineeMessage = buildNomineeDisplay(filmNight);
 
       const nominationsDisplay = new EmbedBuilder()
         .setTitle(`Thank you for your nomination!`)
