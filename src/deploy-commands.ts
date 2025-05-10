@@ -6,8 +6,9 @@ import { join } from "path";
 config();
 
 const {
-  CLIENT_ID: clientId,
-  GUILD_ID: guildId,
+  CLIENT_ID: client_id,
+  // GUILD_ID: guildId,
+  GUILD_IDS: guild_ids,
   BOT_TOKEN: token,
 } = process.env;
 
@@ -44,18 +45,22 @@ const rest = new REST().setToken(token);
 // Deploy the commands
 (async () => {
   try {
-    console.log(
-      `Started refreshing ${commands.length} application (/) commands.`,
-    );
-
-    const data = (await rest.put(
-      Routes.applicationGuildCommands(clientId, guildId),
-      { body: commands },
-    )) as any[];
+    let guildIds = guild_ids.split(",");
 
     console.log(
-      `Successfully reloaded ${data.length} application (/) commands.`,
+      `Started refreshing ${commands.length} slash commands for ${guildIds.length} guilds.`,
     );
+
+    guildIds.forEach(async (guildId, index) => {
+      const data = (await rest.put(
+        Routes.applicationGuildCommands(client_id, guildId),
+        { body: commands },
+      )) as any[];
+
+      console.log(
+        `Successfully reloaded ${data.length} slash commands for ${++index} guild.`,
+      );
+    });
   } catch (error) {
     console.error(error);
   }
