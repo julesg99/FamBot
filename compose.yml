@@ -1,4 +1,4 @@
-# version: "3.6"
+version: "3.6"
 services:
   postgres:
     image: postgres:15
@@ -11,6 +11,12 @@ services:
       - "5432:5432"
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
   graphql-engine:
     image: hasura/graphql-engine:v2.38.0
     ports:
@@ -19,10 +25,15 @@ services:
     env_file:
       - .env
     depends_on:
-      data-connector-agent:
+      postgres:
         condition: service_healthy
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${HASURA_GRAPHQL_SERVER_PORT}/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
   data-connector-agent:
     image: hasura/graphql-data-connector:v2.38.0
     restart: always
@@ -39,8 +50,10 @@ services:
       retries: 5
       start_period: 5s
   fambot:
-    image: node:18-alpine
-    restart: no
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
     env_file:
       - .env
     depends_on:
@@ -48,15 +61,6 @@ services:
         condition: service_healthy
     networks:
       - my-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 5
-      start_period: 5s
-volumes:
-  postgres_data:
-
 networks:
   my-network:
     driver: bridge
