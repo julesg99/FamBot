@@ -7,6 +7,7 @@
     "boot": "node ./dist/index.js",
     "build": "rm -rf dist && tsc",
     "clean": "rm -rf node_modules",
+    "dcb": "docker compose build --no-cache",
     "dcd": "docker compose down",
     "dcu": "docker compose up -d",
     "deploy": "node ./dist/deploy-commands.js",
