@@ -1,0 +1,73 @@
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insertFilmNight
+  methods:
+    - POST
+  name: insertFilmNight
+  url: insertFilmNight
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insertNomination
+  methods:
+    - POST
+  name: insertNomination
+  url: insertNomination
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: insertParticipant
+  methods:
+    - POST
+  name: insertParticipant
+  url: insertParticipant
+- comment: update the score of a specific nomination
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: patchNominationScore
+  methods:
+    - PATCH
+  name: patchNominationScore
+  url: patchNominationScore
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: selectCurrentFilmNight
+  methods:
+    - GET
+  name: selectCurrentFilmNight
+  url: selectCurrentFilmNight
+- comment: check for participation in a film night by user
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: selectFilmNightParticipation
+  methods:
+    - GET
+  name: selectFilmNightParticipation
+  url: selectFilmNightParticipation
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: selectNominations
+  methods:
+    - GET
+    - POST
+  name: selectNominations
+  url: selectNominations
+- comment: ""
+  definition:
+    query:
+      collection_name: allowed-queries
+      query_name: selectParticipant
+  methods:
+    - GET
+  name: selectParticipant
+  url: selectParticipant

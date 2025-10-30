@@ -7,8 +7,6 @@ module.exports = {
   async execute(interaction: Interaction) {
     if (!interaction) return;
 
-    console.log("INTERACTION", interaction);
-
     if (
       interaction.isStringSelectMenu() &&
       interaction.customId?.startsWith("select-movie")

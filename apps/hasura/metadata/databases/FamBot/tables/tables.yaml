@@ -1,0 +1,3 @@
+- "!include public_film_night.yaml"
+- "!include public_nomination.yaml"
+- "!include public_participant.yaml"
