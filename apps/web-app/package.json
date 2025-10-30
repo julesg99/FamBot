@@ -1,0 +1,53 @@
+{
+  "name": "fambot-web",
+  "version": "0.0.1",
+  "description": "SvelteKit web app for FamBot family activities",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite dev",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write .",
+    "clean": "rm -rf node_modules .svelte-kit build",
+    "docker:build": "docker build -t fambot-web .",
+    "docker:dev": "docker build -f Dockerfile.dev -t fambot-web-dev .",
+    "docker:run": "docker run -p 3000:3000 fambot-web"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^1.3.1",
+    "@sveltejs/kit": "^1.20.4",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.35.1",
+    "prettier": "^3.1.1",
+    "prettier-plugin-svelte": "^3.1.2",
+    "svelte": "^4.2.7",
+    "svelte-check": "^3.6.0",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.2"
+  },
+  "dependencies": {
+    "@urql/svelte": "^4.0.4",
+    "graphql": "^16.8.1",
+    "dotenv": "^16.4.5"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "sveltekit",
+    "typescript",
+    "fambot",
+    "discord",
+    "web-app"
+  ],
+  "author": "Jules Garver",
+  "license": "ISC"
+}

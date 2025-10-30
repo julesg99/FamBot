@@ -1,0 +1,26 @@
+# Development Dockerfile for SvelteKit with hot reloading
+
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies first (for better caching)
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Expose port for development server
+EXPOSE 3000
+
+# Create volume for live reloading
+VOLUME ["/app/src", "/app/static"]
+
+# Health check for development
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3000/ || exit 1
+
+# Start development server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
