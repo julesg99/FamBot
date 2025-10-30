@@ -1,0 +1,48 @@
+{
+  "name": "fambot",
+  "version": "0.0.5",
+  "description": "Discord bot for Fam activites",
+  "main": "./dist/index.js",
+  "scripts": {
+    "boot": "node ./dist/index.js",
+    "build": "rm -rf dist && tsc",
+    "clean": "rm -rf node_modules",
+    "dcb": "docker compose build --no-cache",
+    "dcd": "docker compose down",
+    "dcu": "docker compose up -d",
+    "deploy": "node ./dist/deploy-commands.js",
+    "dev": "nodemon",
+    "dsp": "docker system prune -a --volumes -f && docker volume rm $(docker volume ls -qf dangling=true | xargs)",
+    "start": "npm run build && node dist/deploy-commands.js && node dist/index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "film",
+    "fam"
+  ],
+  "author": "Jules Garver",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^4.4.0",
+    "discord-api-types": "^0.37.119",
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint": "^8.57.0",
+    "prettier-plugin-svelte": "^3.2.1",
+    "prettier-plugin-tailwindcss": "^0.4.1",
+    "prettier": "3.5.3",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.1",
+    "typescript": "^5.5.4"
+  }
+}
