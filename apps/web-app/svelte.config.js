@@ -17,7 +17,7 @@ const config = {
 			precompress: true,
 			envPrefix: 'PUBLIC_'
 		}),
-		
+
 		// Environment variables configuration
 		env: {
 			dir: '../../',

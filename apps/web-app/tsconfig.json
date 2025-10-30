@@ -15,15 +15,6 @@
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"types": ["vite/client"]
 	},
-	"include": [
-		"src/**/*.d.ts",
-		"src/**/*.js",
-		"src/**/*.ts",
-		"src/**/*.svelte"
-	],
-	"exclude": [
-		"node_modules/**",
-		"build/**",
-		".svelte-kit/**"
-	]
+	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"],
+	"exclude": ["node_modules/**", "build/**", ".svelte-kit/**"]
 }
